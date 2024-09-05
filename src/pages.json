@@ -1,0 +1,54 @@
+{
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			// uni-ui 规则如下配置
+			"^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"
+		}
+	},
+	"pages": [
+		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/home/index",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{
+			"path": "pages/classify/index"
+		},
+		{
+			"path": "pages/user/index"
+		}
+	],
+	"tabBar": {
+		"color": "#000",
+		"selectedColor": "red",
+		"list": [
+			{
+				"pagePath": "pages/home/index",
+				"text": "推荐",
+				"iconPath": "./static/images/tabBar/home.png",
+				"selectedIconPath": "./static/images/tabBar/home-h.png"
+			},
+			{
+				"pagePath": "pages/classify/index",
+				"text": "分类",
+				"iconPath": "./static/images/tabBar/classify.png",
+				"selectedIconPath": "./static/images/tabBar/classify-h.png"
+			},
+			{
+				"pagePath": "pages/user/index",
+				"text": "我的",
+				"iconPath": "./static/images/tabBar/user.png",
+				"selectedIconPath": "./static/images/tabBar/user-h.png"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	}
+}
