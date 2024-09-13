@@ -1,6 +1,16 @@
 {
-  "name": "uni-preset-vue",
-  "version": "0.0.0",
+  "name": "violet-wallpaper",
+  "version": "1.0.0",
+  "description": "用uniapp开发的一个壁纸软件",
+  "author": {
+    "name": "zhaiqianhui",
+    "email": "2371474513@qq.com"
+  },
+  "repository": {
+    "type": "gitee",
+    "url": "https://gitee.com/zqhweb/Violet-wallpaper.git"
+  },
+  "homepage": "https://gitee.com/zqhweb/Violet-wallpaper",
   "scripts": {
     "dev:app": "uni -p app",
     "dev:app-android": "uni -p app-android",
