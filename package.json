@@ -67,6 +67,8 @@
     "@dcloudio/uni-cli-shared": "3.0.0-4020420240722002",
     "@dcloudio/uni-stacktracey": "3.0.0-4020420240722002",
     "@dcloudio/vite-plugin-uni": "3.0.0-4020420240722002",
+    "@types/node": "^22.5.4",
+    "@types/uni-app": "^1.4.8",
     "@vue/runtime-core": "^3.4.21",
     "sass": "^1.78.0",
     "sass-loader": "10.1.1",

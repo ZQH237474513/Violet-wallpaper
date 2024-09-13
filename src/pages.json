@@ -9,36 +9,70 @@
 	"pages": [
 		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/home/index",
+			"path": "pages/recommend/recommend",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "推荐",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
-			"path": "pages/classify/index"
+			"path": "pages/classify/classify",
+			"style": {
+				"navigationBarTitleText": "分类",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": false
+			}
 		},
 		{
-			"path": "pages/user/index"
+			"path": "pages/classlist/classlist",
+			"style": {
+				"navigationBarTitleText": "分类列表",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/user/user",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/search/search",
+			"style": {
+				"navigationBarTitleText": "搜索",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/preview/preview",
+			"style": {
+				"navigationBarTitleText": "预览",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": false
+			}
 		}
 	],
 	"tabBar": {
-		"color": "#000",
-		"selectedColor": "red",
+		"color": "#9799a5",
+		"selectedColor": "#28B389",
 		"list": [
 			{
-				"pagePath": "pages/home/index",
+				"pagePath": "pages/recommend/recommend",
 				"text": "推荐",
 				"iconPath": "./static/images/tabBar/home.png",
 				"selectedIconPath": "./static/images/tabBar/home-h.png"
 			},
 			{
-				"pagePath": "pages/classify/index",
+				"pagePath": "pages/classify/classify",
 				"text": "分类",
 				"iconPath": "./static/images/tabBar/classify.png",
 				"selectedIconPath": "./static/images/tabBar/classify-h.png"
 			},
 			{
-				"pagePath": "pages/user/index",
+				"pagePath": "pages/user/user",
 				"text": "我的",
 				"iconPath": "./static/images/tabBar/user.png",
 				"selectedIconPath": "./static/images/tabBar/user-h.png"
@@ -47,8 +81,8 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationBarTitleText": "小灰灰壁纸",
+		"navigationBarBackgroundColor": "#fff",
 		"backgroundColor": "#F8F8F8"
 	}
 }
