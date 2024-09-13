@@ -4,7 +4,7 @@
 
 		<view class="userInfo">
 			<view class="avatar">
-				<image src="../../static/images/logo/youyou.png" mode="aspectFill" />
+				<image src="../../static/images/logo/log.png" mode="aspectFill" />
 			</view>
 			<view class="ip">{{ myUserInfo.IP }}</view>
 			<view class="address">来自于 : {{ myUserInfo.address?.city || myUserInfo.address?.province ||
