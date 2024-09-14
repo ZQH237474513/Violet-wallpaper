@@ -39,6 +39,8 @@ pnpm run build:app
 
 ## APP(仅安卓手机)
 
+https://mp-7fa83821-38f5-4b9a-97c7-ad3fedaaf01e.cdn.bspapp.com/cloudstorage/__UNI__543260B_20240914003844.apk
+
 ![](doc/images/搁浅壁纸_APP(安卓版).png)
 
 # app部分页面截图
