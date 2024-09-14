@@ -25,6 +25,22 @@ pnpm run build:app
 
 
 
+# 预览地址
+
+## h5
+
+ [https://static-mp-7fa83821-38f5-4b9a-97c7-ad3fedaaf01e.next.bspapp.com/#/](https://gitee.com/link?target=https%3A%2F%2Fstatic-mp-7fa83821-38f5-4b9a-97c7-ad3fedaaf01e.next.bspapp.com%2F%23%2F)
+
+![](doc/images/搁浅壁纸_H5(网页版).png)
+
+
+
+
+
+## APP(仅安卓手机)
+
+![](doc/images/搁浅壁纸_APP(安卓版).png)
+
 # app部分页面截图
 
 ![](doc/images/微信图片_20240914084351.jpg)
