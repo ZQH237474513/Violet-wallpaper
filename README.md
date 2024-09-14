@@ -27,6 +27,12 @@ pnpm run build:app
 
 # 预览地址
 
+**搁浅壁纸以上架主流平台 微信小程序端 ; app安卓端 ; H5网页端**
+
+## 小程序
+
+![](doc/images/搁浅壁纸_小程序.jpg)
+
 ## h5
 
  [https://static-mp-7fa83821-38f5-4b9a-97c7-ad3fedaaf01e.next.bspapp.com/#/](https://gitee.com/link?target=https%3A%2F%2Fstatic-mp-7fa83821-38f5-4b9a-97c7-ad3fedaaf01e.next.bspapp.com%2F%23%2F)
