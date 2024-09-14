@@ -25,8 +25,6 @@ export const request = (config: requersConfig) => {
 						content: `${res.data.errMsg} \n "access-key":${VITE_ACCESS_KE}`,
 						showCancel: false,
 					});
-				} else if (res.data.errCode === 0) {
-					uni.showToast({ title: res.data.errMsg, icon: "none" });
 				}
 
 				resolve(res.data.data);

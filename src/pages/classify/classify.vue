@@ -16,9 +16,19 @@ const classifyList: any = ref([])
 
 
 onMounted(() => {
-	getClassifyList({ pageNum: 1, pageSize: 15 }).then((res) => {
+	getClassifyList({ pageNum: 1, pageSize: 15 }).then((res: any) => {
 		if (res) {
-			classifyList.value = res
+
+			// #ifdef MP-WEIXIN
+			classifyList.value = res.filter((item: any) => {
+				return item.name !== 'AI美图'
+			});
+			// #endif
+
+			// #ifndef MP-WEIXIN
+			classifyList.value = res;
+			// #endif
+
 		}
 	})
 })

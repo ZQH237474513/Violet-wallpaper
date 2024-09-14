@@ -83,14 +83,34 @@ onMounted(() => {
 			bannerList.value = res;
 		}
 	})
+
 	getRandomWall().then((res: any) => {
 		if (res) {
+			// #ifdef MP-WEIXIN
+			recommendList.value = res.filter((item: any) => {
+				return !item.description.includes('AI')
+			});
+			// #endif
+
+			// #ifndef MP-WEIXIN
 			recommendList.value = res;
+			// #endif
+
 		}
 	})
 	getThemeList().then((res: any) => {
 		if (res) {
-			themeList.value = res
+			// #ifdef MP-WEIXIN
+			themeList.value = res.filter((item: any) => {
+				return item.name !== 'AI美图'
+			});
+			// #endif
+
+			// #ifndef MP-WEIXIN
+			themeList.value = res;
+			// #endif
+
+
 		}
 	})
 	getOneWordDay().then((res: any) => {
