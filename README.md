@@ -9,7 +9,7 @@
 
 b站教学视频 https://www.bilibili.com/video/BV1Yg4y127Fp
 
-
+# 开始
 
 ```js
 npm install -g pnpm
@@ -25,7 +25,7 @@ pnpm run build:app
 
 
 
-
+# app部分页面截图
 
 ![](doc/images/微信图片_20240914084351.jpg)
 
