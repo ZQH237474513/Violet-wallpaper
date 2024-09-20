@@ -5,7 +5,27 @@
 
 一款壁纸工具类软件 后端API由咸虾米壁纸提供
 
-后端api地址 https://api.qingnian8.com/apis/
+~~后端api地址 https://api.qingnian8.com/apis/~~
+
+后端api 改为 360壁纸API https://www.jianshu.com/p/796496029886
+
+```ts
+/** 获取壁纸类别 **/
+http://wallpaper.apc.360.cn/index.php?c=WallPaperAndroid&a=getAllCategories
+
+/** 获取某类别下的壁纸 **/
+http://wallpaper.apc.360.cn/index.php? c=WallPaperAndroid a=getAppsByCategory
+
+/** 按关键字搜索壁纸 **/
+http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=search&start=0&count=99&kw=%E6%AF%95%E4%B8%9A&start=0&count=99
+
+/** 获取今日热门搜索 **/
+http://openbox.mobilem.360.cn/html/api/wallpaperhot.html
+
+
+```
+
+
 
 b站教学视频 https://www.bilibili.com/video/BV1Yg4y127Fp
 
