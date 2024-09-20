@@ -1,4 +1,11 @@
-const { VITE_BASIC_URL, VITE_API_BASIC, VITE_ACCESS_KE } = import.meta.env;
+const {
+	VITE_BASIC_URL,
+	VITE_API_BASIC,
+	VITE_ACCESS_KE,
+	VITE_BASIC_URL_TWO,
+	VITE_BASIC_URL_ONE,
+	VITE_BASIC_URL_THREE,
+} = import.meta.env;
 
 interface requersConfig {
 	url: string;
@@ -19,15 +26,15 @@ export const request = (config: requersConfig) => {
 			header: { "access-key": VITE_ACCESS_KE, ...header },
 			method,
 			success: (res: any) => {
-				if (res.data.errCode === 400) {
-					uni.showModal({
-						title: "错误提示",
-						content: `${res.data.errMsg} \n "access-key":${VITE_ACCESS_KE}`,
-						showCancel: false,
-					});
+				if (res.statusCode === 200) {
+					if (url.includes(VITE_BASIC_URL_TWO)) {
+						resolve(res.data.res);
+					} else if (url.includes(VITE_BASIC_URL_ONE)) {
+						resolve(res.data.data);
+					} else if (url.includes(VITE_BASIC_URL_THREE)) {
+						resolve(res.data);
+					}
 				}
-
-				resolve(res.data.data);
 			},
 			fail: (err: any) => {
 				reject(err);

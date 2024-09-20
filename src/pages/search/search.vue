@@ -36,9 +36,9 @@
 		<view v-else>
 			<scroll-view scroll-y>
 				<view class="list">
-					<navigator :url="`/pages/preview/preview?id=${item._id}`" class="item" v-for="item in searchResolveList"
+					<navigator :url="`/pages/preview/preview?id=${item.id}`" class="item" v-for="item in searchResolveList"
 						:key="item._id">
-						<image :src="item.smallPicurl" mode='aspectFill'></image>
+						<image :src="item.url_mobile || item.url_mid" mode='aspectFill'></image>
 					</navigator>
 				</view>
 				<view class="loadingLayout" v-if="noData || searchResolveList.length">
@@ -52,13 +52,14 @@
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
 import { onLoad, onReachBottom, onUnload } from '@dcloudio/uni-app';
-import { searchResolveData } from '@api/apis';
+import { searchKeyImages } from '@api/homeApis';
 
 
 //查询参数
 const queryParams = ref({
+	start: 1,
+	count: 48,
 	pageNum: 1,
-	pageSize: 12,
 	keyword: ""
 })
 
@@ -92,6 +93,7 @@ onReachBottom(() => {
 		return;
 	};
 	queryParams.value.pageNum++;
+	queryParams.value.start = queryParams.value.pageNum * queryParams.value.count;
 	searchData();
 })
 
@@ -105,11 +107,11 @@ const clickTab = (value) => {
 const searchData = async () => {
 	try {
 		uni.showLoading();
-		const res: any = await searchResolveData(queryParams.value);
+		const res: any = await searchKeyImages(queryParams.value);
 		searchResolveList.value = [...searchResolveList.value, ...res];
 
 		uni.setStorageSync("classifyDetailList", JSON.parse(JSON.stringify(searchResolveList.value)));
-		if (queryParams.value.pageSize > res?.length) {
+		if (queryParams.value.count > res?.length) {
 			noData.value = true
 		};
 
@@ -131,8 +133,9 @@ const initParams = (value?: string) => {
 	noSearch.value = false;
 	searchResolveList.value = [];
 	queryParams.value = {
+		start: 1,
+		count: 48,
 		pageNum: 1,
-		pageSize: 12,
 		keyword: value || ""
 	}
 }

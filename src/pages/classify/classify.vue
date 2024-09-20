@@ -11,26 +11,11 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
-import { getClassifyList } from '@api/apis';
 const classifyList: any = ref([])
 
 
 onMounted(() => {
-	getClassifyList({ pageNum: 1, pageSize: 15 }).then((res: any) => {
-		if (res) {
-
-			// #ifdef MP-WEIXIN
-			classifyList.value = res.filter((item: any) => {
-				return item.name !== 'AI美图'
-			});
-			// #endif
-
-			// #ifndef MP-WEIXIN
-			classifyList.value = res;
-			// #endif
-
-		}
-	})
+	classifyList.value = uni.getStorageSync('themeList') || []
 })
 
 </script>

@@ -1,8 +1,8 @@
 <template>
     <view class="previewLayout">
         <swiper circular @change="swiperChangeHandle" :current="currentImageIndex">
-            <swiper-item v-for="item in classifyDetailList" :key="item._id">
-                <image :src="item.picurl" @click="changeMaskStatusHandle" mode="aspectFill" />
+            <swiper-item v-for="item in classifyDetailList" :key="item.id">
+                <image :src="item.previewSrc" @click="changeMaskStatusHandle" mode="aspectFill" />
             </swiper-item>
         </swiper>
         <view class="mask" v-if="maskStatus">
@@ -22,10 +22,14 @@
                     <view class="text">信息</view>
                 </view>
 
-                <view class="box" @click="() => openOrCloseScorePopup('open')">
-                    <uni-icons type="star" size="28"></uni-icons>
-                    <view class="text">{{ currentSingleImageInfo.score }}分</view>
+                <view class="box">
+                    <uni-icons type="heart-filled" color="red" size="16" />
+                    <text class="text">{{ currentSingleImageInfo.fav_total }}</text>
                 </view>
+                <!-- <view class="box" @click="() => openOrCloseScorePopup('open')">
+                    <uni-icons type="star" size="28"></uni-icons>
+                    <view class="text">{{ currentSingleImageInfo.rank }}分</view>
+                </view> -->
 
                 <view class="box" @click="downloadCurImage">
                     <uni-icons type="download" size="23"></uni-icons>
@@ -50,25 +54,27 @@
                     <view class="content">
                         <view class="row">
                             <view class="label">壁纸ID:</view>
-                            <view class="vlaue">{{ currentSingleImageInfo._id }}</view>
+                            <view class="vlaue">{{ currentSingleImageInfo.id }}</view>
                         </view>
-                        <view class="row">
+                        <!-- <view class="row">
                             <view class="label">发布者:</view>
                             <view class="vlaue">{{ currentSingleImageInfo.nickname }}</view>
-                        </view>
+                        </view> -->
 
                         <view class="row">
-                            <text class="label">评分：</text>
+                            <text class="label">收藏数：</text>
                             <view class='value roteBox'>
-                                <uni-rate readonly touchable size="16" v-model="currentSingleImageInfo.score" />
-                                <text class="score">{{ currentSingleImageInfo.score }}分</text>
+                                <text class="score">{{ currentSingleImageInfo.fav_total }}</text>
+                                <uni-icons type="heart-filled" color="red" size="16" />
+                                <!-- <uni-rate readonly touchable size="16" v-model="currentSingleImageInfo.score" /> -->
+
                             </view>
                         </view>
 
                         <view class="row">
                             <text class="label">摘要：</text>
                             <view class='value'>
-                                {{ currentSingleImageInfo.description }}
+                                {{ currentSingleImageInfo.desc }}
 
                             </view>
                         </view>
@@ -76,7 +82,7 @@
                         <view class="row">
                             <text class="label">标签：</text>
                             <view class='value tabs'>
-                                <view class="tab" v-for="(tab, i) in currentSingleImageInfo.tabs" :key="`${tab}_${i}`">
+                                <view class="tab" v-for="(tab, i) in currentSingleImageInfo.tag" :key="`${tab}_${i}`">
                                     {{ tab }}
                                 </view>
                             </view>
@@ -86,7 +92,7 @@
                 </scroll-view>
 
                 <view class="copyright">
-                    声明：本图片来用户投稿，非商业使用，用于免费学习交流，如侵犯了您的权益，您可以拷贝壁纸ID举报至平台，邮箱513894357@qq.com，管理将删除侵权壁纸，维护您的权益。
+                    声明：本图片来用户投稿，非商业使用，用于免费学习交流，如侵犯了您的权益，您可以拷贝壁纸ID举报至平台，邮箱2371474513@qq.com，管理将删除侵权壁纸，维护您的权益。
                 </view>
             </view>
         </uni-popup>
@@ -118,6 +124,7 @@ import { onLoad, onShareTimeline, onShareAppMessage } from '@dcloudio/uni-app';
 import { getSatusBarHeight, } from '@src/utils/system';
 import { confirmUserScore, downloadImage } from '@api/apis';
 
+
 const { VITE_APP_NAME } = import.meta.env;
 
 const classifyDetailList: any = ref([]);
@@ -137,17 +144,15 @@ onLoad((e: any) => {
         currentImageInfoId.value = id
     }
 
-    const data = uni.getStorageSync('classifyDetailList') || [];
-    classifyDetailList.value = data.map((item: any) => {
-        return { ...item, picurl: item.smallPicurl.replace("_small.webp", ".jpg") }
-    });
+    classifyDetailList.value = uni.getStorageSync('classifyDetailList') || [];
+
 })
 
 
 
 const findImageIndex = () => {
     const targetIndex = [...classifyDetailList.value].findIndex((item: any) => {
-        return item._id === currentImageInfoId.value
+        return item.id === currentImageInfoId.value
     })
 
     if (targetIndex !== -1) {
@@ -262,17 +267,16 @@ const downloadCurImage = async () => {
             title: "下载中...",
             mask: true
         })
-        const {
-            classid,
-            _id: wallId
-        } = currentSingleImageInfo.value;
-        const res: any = await downloadImage({
-            classid,
-            wallId
+
+        const myDownlodImages = uni.getStorageSync('myDownlodImages') || [];
+        const findTarget = myDownlodImages.find((item: any) => {
+            return item.id === currentSingleImageInfo.value.id
         })
-        if (res.errCode != 0) throw res;
+        if (!findTarget) {
+            uni.setStorageSync('myDownlodImages', [...myDownlodImages, currentSingleImageInfo.value])
+        }
         uni.getImageInfo({
-            src: currentSingleImageInfo.value.picurl,
+            src: currentSingleImageInfo.value.previewSrc,
             success: (res) => {
                 uni.saveImageToPhotosAlbum({
                     filePath: res.path,
@@ -297,8 +301,6 @@ const downloadCurImage = async () => {
                                 if (res.confirm) {
                                     uni.openSetting({
                                         success: (setting) => {
-                                            console.log(
-                                                setting);
                                             if (setting
                                                 .authSetting[
                                                 'scope.writePhotosAlbum'

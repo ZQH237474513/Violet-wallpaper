@@ -4,9 +4,9 @@
             <uni-load-more status="loading"></uni-load-more>
         </view>
         <view class="content">
-            <navigator :url="`/pages/preview/preview?id=${item._id}`" class="classlistItem"
-                v-for="item in classifyDetailList" :key="item._id">
-                <image :src="item.smallPicurl" mode="aspectFill" />
+            <navigator :url="`/pages/preview/preview?id=${item.id}`" class="classlistItem"
+                v-for="item in classifyDetailList" :key="item.id">
+                <image :src="item.previewSrc" mode="aspectFill" />
             </navigator>
         </view>
 
@@ -22,15 +22,17 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { onLoad, onReachBottom, onUnload } from '@dcloudio/uni-app';
-import { getClassifyDetailList, myDownloadOrScoreList } from '@api/apis';
+import { myDownloadOrScoreList } from '@api/apis';
+import { getClassifyDetailList } from '@api/detailListApi';
 
 const classifyDetailList: any = ref([])
 const noData = ref(false);
 
 
 const queryParams: any = {
+    start: 1,
+    count: 48,
     pageNum: 1,
-    pageSize: 12
 };
 
 
@@ -58,13 +60,23 @@ onReachBottom(() => {
         return;
     }
     queryParams.pageNum++;
+    queryParams.start = queryParams.pageNum * queryParams.count;
     getClassList()
 })
 
 
-const getClassList = async () => {
-    const res: any = queryParams.type ? await myDownloadOrScoreList(queryParams) : await getClassifyDetailList(queryParams);
 
+const getHistory = () => {
+    if (queryParams.type === 'download') {
+        return uni.getStorageSync('myDownlodImages') || []
+    }
+    return uni.getStorageSync('myScoreImages') || []
+}
+
+
+const getClassList = async () => {
+    const { classid, count, start } = queryParams;
+    const res: any = queryParams.type ? getHistory() : await getClassifyDetailList({ classid, count, start });
 
     if (res) {
         const data = [...classifyDetailList.value, ...res];
@@ -72,7 +84,7 @@ const getClassList = async () => {
         uni.setStorageSync('classifyDetailList', JSON.parse(JSON.stringify(data)))
     }
 
-    if (res.length < queryParams.pageSize) {
+    if (res.length < queryParams.count) {
         noData.value = true;
     }
 }

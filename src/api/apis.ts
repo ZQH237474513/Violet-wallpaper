@@ -98,3 +98,5 @@ export const searchResolveData = (data: SearchParams) => {
 export const getOneWordDay = () => {
 	return request({ url: "https://api.codelife.cc/yiyan/random?lang=cn" });
 };
+
+// http://service.picasso.adesk.com/v1/vertical/category

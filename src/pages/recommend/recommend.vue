@@ -3,8 +3,8 @@
 		<custom-nav-bar title="首页" />
 		<view class="banner">
 			<swiper autoplay circular indicator-dots indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#fff">
-				<swiper-item v-for="(item, i) in bannerList" :key="item._id">
-					<image :src="item.picurl" mode="aspectFill" />
+				<swiper-item v-for="(item, i) in bannerList" :key="item.id">
+					<image :src="item.previewSrc" mode="aspectFill" />
 				</swiper-item>
 			</swiper>
 		</view>
@@ -39,9 +39,9 @@
 			</common-title>
 			<view class="center">
 				<scroll-view scroll-x>
-					<navigator :url="`/pages/preview/preview?id=${item._id}`" class="box" v-for="item in recommendList"
-						:key="item._id">
-						<image :src="item.smallPicurl" mode="scaleToFill" />
+					<navigator :url="`/pages/preview/preview?id=${item.id}`" class="box" v-for="item in recommendList"
+						:key="item.id">
+						<image :src="item.img" mode="scaleToFill" />
 					</navigator>
 				</scroll-view>
 			</view>
@@ -60,7 +60,7 @@
 				</template>
 			</common-title>
 			<view class="content">
-				<theme-item v-for="(item, i) in themeList" :key="item._id" :item="item"></theme-item>
+				<theme-item v-for="(item, i) in themeList" :key="item.id" :item="item"></theme-item>
 				<theme-item :isMore="true" v-if="themeList.length" />
 			</view>
 		</view>
@@ -70,7 +70,9 @@
 <script lang="ts" setup>
 import { ref, onMounted, onUnmounted } from "vue";
 import { onLoad, onUnload, onHide } from '@dcloudio/uni-app';
-import { getBanner, getRandomWall, getThemeList, getOneWordDay } from '@api/apis'
+import { getBanner, getOneWordDay } from '@api/apis'
+import { getRandomWall, getThemeList, searchKeyImages } from '@api/homeApis';
+import { getRandomNumber } from '@utils/common'
 
 const bannerList: any = ref([]);
 const recommendList: any = ref([]);
@@ -78,44 +80,19 @@ const themeList: any = ref([]);
 const oneWordDay: any = ref({});
 
 onMounted(() => {
-	getBanner().then((res: any) => {
-		if (res) {
-			bannerList.value = res;
-		}
+	searchKeyImages({ keyword: '4k', start: getRandomNumber(1, 60), count: 5 }).then((res: any) => {
+		bannerList.value = res;
 	})
 
 	getRandomWall().then((res: any) => {
-		if (res) {
-			// #ifdef MP-WEIXIN
-			recommendList.value = res.filter((item: any) => {
-				return !item.description.includes('AI')
-			});
-			// #endif
-
-			// #ifndef MP-WEIXIN
-			recommendList.value = res;
-			// #endif
-
-		}
+		recommendList.value = res
 	})
 	getThemeList().then((res: any) => {
-		if (res) {
-			// #ifdef MP-WEIXIN
-			themeList.value = res.filter((item: any) => {
-				return item.name !== 'AI美图'
-			});
-			// #endif
-
-			// #ifndef MP-WEIXIN
-			themeList.value = res;
-			// #endif
-
-
-		}
+		uni.setStorageSync('themeList', res)
+		themeList.value = res.slice(0, 5)
 	})
 	getOneWordDay().then((res: any) => {
 		oneWordDay.value = res
-
 	})
 })
 
